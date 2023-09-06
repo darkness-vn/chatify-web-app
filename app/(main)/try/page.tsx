@@ -6,7 +6,7 @@ import TryButton from "./button"
 import Card from "./card"
 
 export default async function Try() {
-    const res = await fetch("http://localhost:8888/try/items", {
+    const res = await fetch(`http://localhost:8888/try/items`, {
         cache: "no-cache",
         next: { tags: ["items"] }
     })

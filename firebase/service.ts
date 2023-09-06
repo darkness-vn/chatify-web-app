@@ -3,7 +3,7 @@ import { auth, store, realtime } from "./config"
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { collection, doc, where, query, getDocs } from "firebase/firestore"
 import { v4 as uuidv4 } from "uuid"
-import { ref, set, remove } from "firebase/database"
+import { ref, set, remove, update } from "firebase/database"
 import { iMessage } from "@/types/message"
 
 export async function loginWithEmailAndPassword(email: string, password: string) {
@@ -82,5 +82,11 @@ export const invite = async ({ from, to, zone }: invitePayload) => {
     const _id = uuidv4()
     await set(ref(realtime, `invitations/${to}/${zone._id}`), {
         _id, from, to, zone, status: 0, time: Date.now()
+    })
+}
+
+export const setInvitationStatus = async ({ userId, zoneId }: { userId: string, zoneId: string }) => {
+    await update(ref(realtime, `invitations/${userId}/${zoneId}`), {
+        status: 1
     })
 }

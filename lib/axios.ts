@@ -13,7 +13,7 @@ const useAxios = ({ onSuccess, onError }: Handlers = {}) => {
     const router = useRouter()
     const token = getCookie("token")
     const instance = axios.create({
-        baseURL: 'http://localhost:8888',
+        baseURL: process.env.NEXT_PUBLIC_CORE_SERVICES,
         timeout: 100000,
         headers: {
             'Authorization': token,

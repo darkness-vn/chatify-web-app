@@ -8,7 +8,7 @@ export const loader = async (zoneId: string) => {
     try {
         const cookieStore = cookies()
         const token = cookieStore.get("token")?.value
-        const { data } = await axios.get(`http://localhost:8888/zone/zone-detail/${zoneId}`, { headers: { Authorization: token } })
+        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_CORE_SERVICES}/zone/zone-detail/${zoneId}`, { headers: { Authorization: token } })
         return data
     } catch (err: any) {
         console.log(err.message)

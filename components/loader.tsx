@@ -6,12 +6,11 @@ import { doc, getDoc } from "firebase/firestore"
 import Logo from "./logo"
 
 type Props = {
-    timeout: number
     onSuccessRedirectPath?: string
     onErrorRedirectPath?: string
 }
 
-const Loader:FC<Props> = ({ timeout, onSuccessRedirectPath, onErrorRedirectPath }) => {
+const Loader:FC<Props> = ({ onSuccessRedirectPath, onErrorRedirectPath }) => {
 
     const router = useRouter()
 
@@ -28,7 +27,7 @@ const Loader:FC<Props> = ({ timeout, onSuccessRedirectPath, onErrorRedirectPath 
     
                         setTimeout(() => {
                             router.push(onSuccessRedirectPath ?? "/lobby")
-                        }, timeout ?? 2000)
+                        }, 1000)
     
                     } catch (err) {
                         console.log(err)
@@ -36,7 +35,7 @@ const Loader:FC<Props> = ({ timeout, onSuccessRedirectPath, onErrorRedirectPath 
                 } else {
                     setTimeout(() => {
                         router.push(onErrorRedirectPath ?? "/login")
-                    }, timeout ?? 2000)
+                    }, 1000)
                 }
             })
         } catch (err) {

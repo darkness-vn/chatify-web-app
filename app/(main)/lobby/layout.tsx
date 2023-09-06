@@ -1,13 +1,9 @@
-import Sidebar from "@/components/Sidebar"
-import axios from "axios"
-import { redirect } from "next/navigation"
-import { cookies } from "next/headers"
+import Helper from "@/components/helper/helper"
 import SidebarProvider from "./sidebar"
-
-
 
 export default async function LobbyLayout(props: { children: React.ReactNode }) {
     return <main className="flex">
+        <Helper />
         <SidebarProvider />
         {props.children}
     </main>

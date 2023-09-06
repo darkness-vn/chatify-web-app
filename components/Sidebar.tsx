@@ -25,16 +25,16 @@ import { onValue, ref } from "firebase/database"
 import { getCookie } from "cookies-next"
 import { AuthState } from "@/types/auth"
 import { Invitation } from "@/types/invitation"
+import { setInvitationStatus } from "@/firebase/service"
 type Props = { zones: any }
 
 const Sidebar: FC<Props> = (props) => {
-    const userInfo = auth
     const router = useRouter()
+    const user = JSON.parse(getCookie("auth")!) as AuthState
     const [zones, $zones] = useState<Array<iZone>>(props.zones)
     const [zoneType, $zoneType] = useState<string>("")
     const [zoneName, $zoneName] = useState<string>("")
     const [showCreateZoneBox, $showCreateZoneBox] = useState<boolean>(false)
-    const [showInviteBox, $showInviteBox] = useState<boolean>(false)
     const [isLoading, $isLoading] = useState<boolean>(false)
     const { toast } = useToast()
     const axios = useAxios()
@@ -52,13 +52,14 @@ const Sidebar: FC<Props> = (props) => {
     }
 
     const join = async (zone: iZone) => {
+        // Set lai status ve 1
         await axios.post("/zone/participated-zone", { zone })
         await loader()
+        await setInvitationStatus({ userId: user.uid, zoneId: zone._id })
         return router.push(`/lobby/${zone._id}`)
     }
 
     useEffect(() => {
-        const user = JSON.parse(getCookie("auth")!) as AuthState
         const invitations = ref(realtime, 'invitations/' + user.uid)
         onValue(invitations, (snapshot) => {
             const data = snapshot.val()
@@ -71,19 +72,20 @@ const Sidebar: FC<Props> = (props) => {
                 const sortedData = invitations.sort((a, b) => b.time - a.time)
                 console.log(sortedData)
 
-                toast({
-                    duration: 2000,
-                    description: <div>
-                        <div className="flex space-x-2 items-center">
-                            <img src={sortedData[0].from.photoURL} alt="" className="w-10 h-10 rounded-full" />
-                            <div>
-                                <p className="text-gray-600 font-bold">{sortedData[0].from.displayName}</p>
-                                <p>Đã mời bạn vào Zone {sortedData[0].zone.zone_name}</p>
-                                <button onClick={() => join(sortedData[0].zone)} className="bg-green-500 px-4 text-white">Vào ngay</button>
+                if (sortedData[0].status == 0) {
+                    toast({
+                        description: <div>
+                            <div className="flex space-x-2 items-center">
+                                <img src={sortedData[0].from.photoURL} alt="" className="w-10 h-10 rounded-full" />
+                                <div>
+                                    <p className="text-gray-600 font-bold">{sortedData[0].from.displayName}</p>
+                                    <p>Đã mời bạn vào Zone {sortedData[0].zone.zone_name}</p>
+                                    <button onClick={() => join(sortedData[0].zone)} className="bg-green-500 px-4 text-white">Vào ngay</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                })
+                    })
+                }
             }
         })
     }, [])

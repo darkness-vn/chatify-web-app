@@ -29,6 +29,7 @@
     "clsx": "^2.0.0",
     "cookies-next": "^3.0.0",
     "firebase": "^10.3.0",
+    "framer-motion": "^10.16.4",
     "livekit-client": "^1.13.0",
     "livekit-server-sdk": "^1.2.6",
     "lucide-react": "^0.269.0",

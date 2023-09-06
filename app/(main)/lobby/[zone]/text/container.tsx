@@ -55,7 +55,9 @@ const TextChannelContainer: React.FC<Props> = () => {
     }
 
     return <div className="relative w-full h-full">
-        <div className="w-full h-10 bg-red-500"></div>
+        <div className="w-full h-10 bg-dark-2">
+
+        </div>
         {messages.length > 0 && <ScrollArea className="h-[88vh] w-full rounded-md p-2">
             {messages.map((i) => <MessageCard key={i._id} data={i} zone={zone as string} />)}
         </ScrollArea>}

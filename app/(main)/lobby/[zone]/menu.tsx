@@ -103,12 +103,9 @@ export default function ZoneMenu({ zone }: Props) {
                     </form>
                 </div>
                 <ScrollArea className="list-friends w-full p-3 space-y-2 h-[220px]">
-                    <FriendCard />
-                    <FriendCard />
-                    <FriendCard />
-                    <FriendCard />
-                    <FriendCard />
-                    <FriendCard />
+                    <FriendCard name="tlt.hp69@gmail.com" uid="0ea25wQF8qV57rmC1B848XetVp02"/>
+                    <FriendCard name="rsoft.hwang99@gmail.com" uid="HzaTJIIb4iPdrBINywvgYoNzszM2"/>
+                    <FriendCard name="tunghwang.developer@gmail.com" uid="mP4rNMf5lPhKDRclPUuzsF7GjqM2"/>
                 </ScrollArea>
                 <div className="w-full p-3">
                     <p className="text-white text-sm font-semibold">Hoặc gửi link này đến bạn bè:</p>
